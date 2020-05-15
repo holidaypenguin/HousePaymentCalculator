@@ -10,12 +10,14 @@ var domOperate = {
         _this.lilvCal(sdYear, config.shangdaiLilv, config.shangdaiSelect, "shangyelanlilv");
         _this.lilvCal(gjjYear, config.gjjLilv, config.gjjSelect, "gjjlanlilv");
 
-        $(".zbili").val('35');
-        $(".geshuai").val('1');
-        $(".qishuai").val('1');
+        $(".daikuan").val('65');
+        $(".geshui").val('0');
+        $(".qishui").val('1');
         $(".zengzhi").val('3');
-        $(".zhongjian").val('2.7');
+        $(".tudi").val('0');
+        $(".zhongjie").val('2.7');
         $(".pinggu").val('95');
+        $(".wangqian").val('95');
         //商贷年利率变化计算
         $("#sylanyear").change(function () {
             var year = $(this).val();
@@ -134,28 +136,51 @@ var domOperate = {
         //房价输入数字监听
         $(".fangnum").on("input", function (e) {
             var fangjia = Number($(".fangjia").val() || 0);
-            var zbili = Number($(".zbili").val() || 0);
-            var geshuai = Number($(".geshuai").val() || 0);
-            var qishuai = Number($(".qishuai").val() || 0);
-            var zengzhi = Number($(".zengzhi").val() || 0);
-            var zhongjian = Number($(".zhongjian").val() || 0);
-            var pinggu = Number($(".pinggu").val() || 100);
+
+            var daikuan_percent = Number($(".daikuan").val() || 0);
+            var geshui_percent = Number($(".geshui").val() || 0);
+            var qishui_percent = Number($(".qishui").val() || 0);
+            var zengzhi_percent = Number($(".zengzhi").val() || 0);
+            var tudi_percent = Number($(".tudi").val() || 0);
+            var zhongjie_percent = Number($(".zhongjie").val() || 0);
+            var pinggu_percent = Number($(".pinggu").val() || 100);
+            var wangqian_percent = Number($(".wangqian").val() || 100);
             var qita = Number($(".qita").val() || 0);
-            console.log(fangjia, geshuai, qishuai, zengzhi, zhongjian, pinggu, qita);
-            var pingguPrice = fangjia * pinggu / 100;
-            var ewai = pingguPrice * ((zhongjian + geshuai + zengzhi) / 100);
-            console.log(ewai);
-            var shoufuPrice = pingguPrice * zbili / 100 + qita + ewai;
+
+            var wangqianPrice = fangjia * wangqian_percent / 100;
+            var pingguPrice = fangjia * pinggu_percent / 100;
+            var daikuanPrice = daikuan_percent * pingguPrice / 100;
+            
+            var geshuiPrice = geshui_percent * wangqianPrice / 100;
+            var qishuiPrice = qishui_percent * wangqianPrice / 100;
+            var zengzhiPrice = zengzhi_percent * wangqianPrice / 100;
+            var tudiPrice = tudi_percent * wangqianPrice / 100;
+            var zhongjiePrice = zhongjie_percent * wangqianPrice / 100;
+
+            $(".c_daikuan").html(daikuanPrice);
+            $(".c_geshui").html(geshuiPrice);
+            $(".c_qishui").html(qishuiPrice);
+            $(".c_zengzhi").html(zengzhiPrice);
+            $(".c_tudi").html(tudiPrice);
+            $(".c_zhongjie").html(zhongjiePrice);
+            $(".c_pinggu").html(pingguPrice);
+            $(".c_wangqian").html(wangqianPrice);
+            
+            var ewai = geshuiPrice + qishuiPrice + zengzhiPrice + tudiPrice + zhongjiePrice + qita;
+            var shoufuPrice = wangqianPrice - daikuanPrice;
+            var totalSF = shoufuPrice + ewai;
             var totalPrice = fangjia + ewai;
-            console.log(shoufuPrice, totalPrice, pingguPrice);
-            $(".shoufu_price").html((shoufuPrice).toFixed(2));
+            console.log(ewai, shoufuPrice, totalSF, totalPrice);
+            
+            $(".shoufu_price").html(shoufuPrice.toFixed(2) + ' + ' + ewai.toFixed(2) + ' = ' + totalSF.toFixed(2));
             $(".htotal_price").html(totalPrice);
             $(".pinggu_price").html(pingguPrice);
 
+
+
             // 赋值给贷款金额
-            var daik = (totalPrice - shoufuPrice).toFixed(2);
-            $(".shangyef").val(daik)
-            _this.lannumChange(daik);
+            $(".shangyef").val(daikuanPrice)
+            _this.lannumChange(daikuanPrice);
         })
 
         //详情滚动导航固定
