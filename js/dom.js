@@ -155,24 +155,25 @@ var domOperate = {
             var qishuiPrice = qishui_percent * wangqianPrice / 100;
             var zengzhiPrice = zengzhi_percent * wangqianPrice / 100;
             var tudiPrice = tudi_percent * wangqianPrice / 100;
-            var zhongjiePrice = zhongjie_percent * wangqianPrice / 100;
+            var zhongjiePrice = zhongjie_percent * fangjia / 100;
 
-            $(".c_daikuan").html(daikuanPrice);
-            $(".c_geshui").html(geshuiPrice);
-            $(".c_qishui").html(qishuiPrice);
-            $(".c_zengzhi").html(zengzhiPrice);
-            $(".c_tudi").html(tudiPrice);
-            $(".c_zhongjie").html(zhongjiePrice);
-            $(".c_pinggu").html(pingguPrice);
-            $(".c_wangqian").html(wangqianPrice);
+            $(".c_daikuan").html(daikuanPrice ? daikuanPrice.toFixed(2) : '');
+            $(".c_geshui").html(geshuiPrice ? geshuiPrice.toFixed(2) : '');
+            $(".c_qishui").html(qishuiPrice ? qishuiPrice.toFixed(2) : '');
+            $(".c_zengzhi").html(zengzhiPrice ? zengzhiPrice.toFixed(2) : '');
+            $(".c_tudi").html(tudiPrice ? tudiPrice.toFixed(2) : '');
+            $(".c_zhongjie").html(zhongjiePrice ? zhongjiePrice.toFixed(2) : '');
+            $(".c_pinggu").html(pingguPrice ? pingguPrice.toFixed(2) : '');
+            $(".c_wangqian").html(wangqianPrice ? wangqianPrice.toFixed(2) : '');
             
             var ewai = geshuiPrice + qishuiPrice + zengzhiPrice + tudiPrice + zhongjiePrice + qita;
-            var shoufuPrice = wangqianPrice - daikuanPrice;
+            var shoufuPrice = fangjia - daikuanPrice;
             var totalSF = shoufuPrice + ewai;
             var totalPrice = fangjia + ewai;
             console.log(ewai, shoufuPrice, totalSF, totalPrice);
             
-            $(".shoufu_price").html(shoufuPrice.toFixed(2) + ' + ' + ewai.toFixed(2) + ' = ' + totalSF.toFixed(2));
+            $(".shoufu_price").html(totalSF.toFixed(2));
+            $(".shoufu_price_sub").html(' = (净)' + shoufuPrice.toFixed(2) + ' + (杂)' + ewai.toFixed(2));
             $(".htotal_price").html(totalPrice);
             $(".pinggu_price").html(pingguPrice);
 

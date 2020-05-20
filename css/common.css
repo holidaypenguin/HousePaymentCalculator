@@ -73,7 +73,7 @@ input,button,a{-webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-tap-highlight
 
 .topfangbar {height: 263px;}
 .calculator_num {font-weight: 500; margin: 0 10px;color: #EA4C40;}
-
+.shoufu_price_sub {font-size: 28px;}
 @-webkit-keyframes fadeInRight {
     0% {
         opacity: 0;
